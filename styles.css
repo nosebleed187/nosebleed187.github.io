@@ -1,0 +1,337 @@
+/* Портфолио Павла Барашкова — вёрстка по макету Figma.
+   Десктоп: колонка 600px по центру. Мобильная (≤640px): отступ 8px снаружи, 16px внутри карточек. */
+
+:root {
+  --bg: #fafafa;
+  --card: #f7f7f7;
+  --card-border: #bdbdbd;
+  --text: #171717;
+  --muted: rgba(23, 23, 23, 0.5);
+  --chip: #e0e0e0;
+  --btn: #141414;
+  --btn-border: #696969;
+  --placeholder: #efefef;
+
+  --font: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --col: 600px;
+  --pad: 24px;      /* внутренний отступ колонки и карточек */
+  --r-card: 32px;
+  --r-img: 24px;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 20px;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+
+img { display: block; max-width: 100%; }
+
+.page {
+  width: 100%;
+  max-width: var(--col);
+  margin: 0 auto;
+}
+
+/* ---------- Шапка ---------- */
+.hero {
+  min-height: 358px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 24px;
+  padding: 121px var(--pad) 32px;
+}
+
+.hero__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.avatar {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  border: 0.5px solid #383838;
+  overflow: hidden;
+  background: linear-gradient(160deg, #3a3a3a, #121212);
+}
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+.avatar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.32);
+  pointer-events: none;
+}
+
+.hero__title {
+  margin: 0;
+  font-size: 24px;
+  line-height: 30.16px;
+  font-weight: 500;
+  color: var(--muted);
+  text-wrap: balance;
+}
+.hero__title b { font-weight: 500; color: var(--text); }
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 13px;
+  border-radius: 999px;
+  border: 0.5px solid var(--btn-border);
+  background: var(--btn);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.0384px;
+  white-space: nowrap;
+  box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.4);
+  transition: background-color 0.15s ease;
+}
+.btn:hover { background: #2a2a2a; }
+.btn:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+
+/* ---------- Секции ---------- */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-block: 32px;
+}
+
+.section__label {
+  margin: 0;
+  padding-inline: var(--pad);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.card {
+  background: var(--card);
+  border: 0.5px solid var(--card-border);
+  border-radius: var(--r-card);
+  padding: var(--pad);
+}
+
+/* ---------- Опыт работы ---------- */
+.jobs {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.job { display: flex; flex-direction: column; gap: 4px; }
+.job__date { font-size: 12px; color: var(--muted); }
+.job__name { font-size: 18px; font-weight: 500; }
+.job__role { font-size: 14px; color: var(--muted); }
+
+/* ---------- Кейсы ---------- */
+.case {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+a.case-card { display: block; transition: border-color 0.15s ease; }
+a.case-card:hover { border-color: #8f8f8f; }
+a.case-card:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+
+.case__text {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.case__meta { display: flex; align-items: center; gap: 10px; }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: 21px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--chip);
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: -0.0288px;
+  white-space: nowrap;
+}
+
+.case__year { font-size: 12px; color: var(--muted); }
+
+.case__body { display: flex; flex-direction: column; gap: 4px; }
+.case__title { margin: 0; font-size: 18px; font-weight: 500; }
+.case__desc { margin: 0; font-size: 14px; color: var(--muted); }
+
+.case__img {
+  flex: 0 0 328px;
+  width: 328px;
+  height: var(--h, 328px);
+  border-radius: var(--r-img);
+  overflow: hidden;
+  background: var(--placeholder);
+}
+.case__img img,
+.case__img video { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- Визуальные работы (more) ---------- */
+.shot {
+  position: relative;
+  aspect-ratio: 344 / 328; /* пропорции карточки из мобильного макета */
+  padding: 16px;
+  border-radius: var(--r-img);
+  border: 0.5px solid var(--card-border);
+  overflow: hidden;
+  background: var(--tone, #1c1c1c);
+}
+.shot img,
+.shot video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* rncb: оригинальный GIF без пережатия, кадрирование как в Figma
+   (картинка 1882×1058 в карточке 344×328, сдвиг −763.5 / −420.5) */
+.shot--rncb img {
+  inset: auto;
+  left: -221.95%;
+  top: -128.2%;
+  width: 547.09%;
+  height: 322.56%;
+  max-width: none;
+  object-fit: fill;
+}
+
+.shot__title {
+  position: relative;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(250, 250, 250, 0.4);
+}
+.shot--light .shot__title { color: rgba(23, 23, 23, 0.4); }
+
+/* ---------- Футер ---------- */
+.footer {
+  padding: 32px var(--pad);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ---------- Страница кейса ---------- */
+.back {
+  display: inline-flex;
+  align-self: flex-start;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+  transition: color 0.15s ease;
+}
+.back:hover { color: var(--text); }
+
+.cs-head {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 120px var(--pad) 24px;
+}
+.cs-head h1 {
+  margin: 0;
+  font-size: 28px;
+  line-height: 30.16px;
+  font-weight: 500;
+  text-wrap: balance;
+}
+.cs-lead {
+  margin: 0;
+  font-size: 20px;
+  line-height: 30.16px;
+}
+
+.cs-block {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0 var(--pad) 32px;
+}
+.cs-block--after-img { padding-top: 24px; }
+.cs-block h2 {
+  margin: 0;
+  font-size: 20px;
+  line-height: 30.16px;
+  font-weight: 500;
+}
+
+.facts { margin: 0; display: flex; flex-direction: column; gap: 16px; }
+.fact { display: flex; flex-direction: column; gap: 4px; }
+.fact dt { font-size: 14px; font-weight: 500; color: var(--muted); }
+.fact dd { margin: 0; font-size: 18px; font-weight: 500; }
+
+.cs-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--r-img);
+  overflow: hidden;
+  background: var(--placeholder);
+}
+.cs-image img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- Мобильная версия ---------- */
+@media (max-width: 640px) {
+  :root {
+    --pad: 16px;
+    --r-card: 24px;
+  }
+
+  .page {
+    padding-left: max(8px, env(safe-area-inset-left, 0px));
+    padding-right: max(8px, env(safe-area-inset-right, 0px));
+  }
+
+  .hero { padding-top: 62px; }
+
+  .case { flex-direction: column; gap: 20px; }
+  .case__img {
+    flex: none;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 311 / 295;
+  }
+
+  .cs-head { padding-top: 62px; }
+  .cs-head h1 { font-size: 24px; }
+  .cs-lead { font-size: 18px; line-height: 26px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

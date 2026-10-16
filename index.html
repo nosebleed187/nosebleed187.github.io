@@ -49,10 +49,10 @@
     </div>
   </section>
 
-  <section class="section" aria-labelledby="cases">
+  <section class="section stack" aria-labelledby="cases">
     <h2 class="section__label" id="cases">case study</h2>
 
-    <a class="card case-card" href="case-uralsib.html">
+    <a class="card case-card" href="case-uralsib.html" style="--i: 0">
       <article class="case">
         <div class="case__text">
           <div class="case__meta"><span class="chip">🛠️ в работе</span><span class="case__year">2026</span></div>
@@ -65,7 +65,7 @@
       </article>
     </a>
 
-    <div class="card">
+    <div class="card" style="--i: 1">
       <article class="case">
         <div class="case__text">
           <div class="case__meta"><span class="chip">🛠️ в работе</span><span class="case__year">2026</span></div>
@@ -78,7 +78,7 @@
       </article>
     </div>
 
-    <div class="card">
+    <div class="card" style="--i: 2">
       <article class="case">
         <div class="case__text">
           <div class="case__meta"><span class="chip">🛠️ в работе</span><span class="case__year">2026</span></div>
@@ -91,7 +91,7 @@
       </article>
     </div>
 
-    <div class="card">
+    <div class="card" style="--i: 3">
       <article class="case">
         <div class="case__text">
           <div class="case__meta"><span class="chip">🛠️ в работе</span><span class="case__year">2026</span></div>
@@ -104,7 +104,7 @@
       </article>
     </div>
 
-    <div class="card">
+    <div class="card" style="--i: 4">
       <article class="case">
         <div class="case__text">
           <div class="case__meta"><span class="chip">🛠️ в работе</span><span class="case__year">2024</span></div>
@@ -145,5 +145,30 @@
 
   <footer class="footer">© made PB x SE, 2026</footer>
 </main>
+<script>
+  // Карточка, которую накрывает следующая, слегка уменьшается и темнеет.
+  (function () {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.stack > .card'));
+    if (cards.length < 2) return;
+    var ticking = false;
+    function update() {
+      ticking = false;
+      for (var i = 0; i < cards.length - 1; i++) {
+        var cur = cards[i].getBoundingClientRect();
+        var next = cards[i + 1].getBoundingClientRect();
+        var h = cur.height || 1;
+        // 0 — следующая карточка ещё не дошла, 1 — полностью накрыла
+        var p = Math.min(1, Math.max(0, (cur.bottom - next.top) / h));
+        cards[i].style.transform = 'scale(' + (1 - p * 0.06) + ')';
+        cards[i].style.filter = 'brightness(' + (1 - p * 0.08) + ')';
+      }
+    }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll);
+    update();
+  })();
+</script>
 </body>
 </html>

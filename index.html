@@ -134,8 +134,8 @@
 </main>
 <script>
   // Карточка, которую накрывает следующая, уменьшается и размывается (как в iOS).
+  // Эффект привязан к прокрутке и ничего не анимирует сам, поэтому работает и при «уменьшить движение».
   (function () {
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var groups = Array.prototype.map.call(document.querySelectorAll('.stack'), function (st) {
       return Array.prototype.slice.call(st.querySelectorAll(':scope > .card, :scope > .shot'));
     });

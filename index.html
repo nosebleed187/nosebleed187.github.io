@@ -179,12 +179,21 @@
           cover.push(Math.min(1, Math.max(0, (a + prev - b) / (prev || 1))));
         }
         // глубина = сколько карточек лежит сверху; чем глубже, тем меньше (как стопка уведомлений в iOS)
-        var depth = 0;
+        var depth = 0, limit = Infinity;
         for (var j = cards.length - 1; j >= 0; j--) {
           if (j < cards.length - 1) depth += cover[j + 1];
           var s = Math.max(0.82, 1 - depth * 0.045);
-          cards[j].style.transform = depth ? 'scale(' + s.toFixed(4) + ')' : '';
-          cards[j].style.filter = depth ? 'blur(' + (Math.min(depth, 1.5) * 3).toFixed(2) + 'px)' : '';
+          var el = cards[j], h = el.offsetHeight;
+          var top = el.getBoundingClientRect().top;
+          var bottom = top + h * s;
+          // не даём задней карточке торчать ниже той, что лежит на ней, иначе её видно в щелях между карточками
+          var cut = 0;
+          if (j < cards.length - 1 && cover[j + 1] > 0 && bottom > limit - 1) cut = (bottom - (limit - 1)) / s;
+          var visibleBottom = bottom - cut * s;
+          limit = (j < cards.length - 1 && cover[j + 1] > 0) ? Math.min(visibleBottom, limit) : visibleBottom;
+          el.style.transform = depth ? 'scale(' + s.toFixed(4) + ')' : '';
+          el.style.filter = depth ? 'blur(' + (Math.min(depth, 1.5) * 3).toFixed(2) + 'px)' : '';
+          el.style.clipPath = cut > 0 ? 'inset(0 0 ' + cut.toFixed(1) + 'px 0 round ' + getComputedStyle(el).borderTopLeftRadius + ')' : '';
         }
       });
     }

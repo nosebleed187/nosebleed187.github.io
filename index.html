@@ -15,7 +15,7 @@
 
   <header class="hero">
     <div class="hero__intro">
-      <div class="avatar">
+      <div class="avatar" role="button" tabindex="0" aria-label="Павел Барашков — нажми на меня">
         <img src="images/avatar.webp" alt="Павел Барашков">
       </div>
       <h1 class="hero__title"><b>павел барашков</b>, <span class="nowrap">продуктовый дизайнер,</span> занимаюсь ⚒️ дизайн-системами</h1>
@@ -133,6 +133,32 @@
   <footer class="footer">© made PB x SE, 2026</footer>
 </main>
 <script>
+  // Пасхалка: по клику аватар мягко подпрыгивает, кривляется и пружинисто возвращается.
+  (function () {
+    var av = document.querySelector('.avatar');
+    if (!av || !av.animate) return;
+    var anim = null;
+    var frames = [
+      { transform: 'translateY(0) scale(1, 1) rotate(0deg)' },
+      { transform: 'translateY(2px) scale(1.14, 0.86) rotate(0deg)', offset: 0.12, easing: 'cubic-bezier(.3,0,.2,1)' },
+      { transform: 'translateY(-30px) scale(0.9, 1.12) rotate(-7deg)', offset: 0.32, easing: 'cubic-bezier(.4,0,.6,1)' },
+      { transform: 'translateY(-36px) scale(1.04, 0.96) rotate(9deg)', offset: 0.46, easing: 'cubic-bezier(.5,0,.8,.6)' },
+      { transform: 'translateY(0) scale(1.18, 0.82) rotate(0deg)', offset: 0.62, easing: 'cubic-bezier(.2,.6,.4,1)' },
+      { transform: 'translateY(-9px) scale(0.95, 1.06) rotate(-4deg)', offset: 0.74, easing: 'ease-in-out' },
+      { transform: 'translateY(0) scale(1.05, 0.95) rotate(2deg)', offset: 0.85, easing: 'ease-in-out' },
+      { transform: 'translateY(0) scale(0.99, 1.01) rotate(-1deg)', offset: 0.93, easing: 'ease-out' },
+      { transform: 'translateY(0) scale(1, 1) rotate(0deg)' }
+    ];
+    function boing() {
+      if (anim && anim.playState === 'running') return; // не перебиваем текущий прыжок
+      anim = av.animate(frames, { duration: 1150 });
+    }
+    av.addEventListener('click', boing);
+    av.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); boing(); }
+    });
+  })();
+
   // Карточка, которую накрывает следующая, уменьшается и размывается (как в iOS).
   // Эффект привязан к прокрутке и ничего не анимирует сам, поэтому работает и при «уменьшить движение».
   (function () {

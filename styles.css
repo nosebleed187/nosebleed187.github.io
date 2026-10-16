@@ -80,7 +80,11 @@ img { display: block; max-width: 100%; }
   border: 0.5px solid #383838;
   overflow: hidden;
   background: linear-gradient(160deg, #3a3a3a, #121212);
+  cursor: pointer;
+  transform-origin: 50% 100%; /* приседает и приземляется «на ноги» */
+  -webkit-tap-highlight-color: transparent;
 }
+.avatar:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
 .avatar img { width: 100%; height: 100%; object-fit: cover; }
 .avatar::after {
   content: "";

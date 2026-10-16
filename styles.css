@@ -4,12 +4,24 @@
 :root {
   --bg: #fafafa;
   --card: #f7f7f7;
-  --card-border: #bdbdbd;
   --text: #171717;
   --muted: rgba(23, 23, 23, 0.5);
   --chip: #e0e0e0;
   --btn: #141414;
-  --btn-border: #696969;
+
+  /* Градиентные обводки из Figma (0.5px, внутри).
+     Карточки: #bdbdbd → #585858 → #585858 → #bdbdbd, прозрачность 24%. */
+  --stroke-card: linear-gradient(90deg,
+    rgba(189, 189, 189, 0.24) 0%,
+    rgba(88, 88, 88, 0.24) 33%,
+    rgba(88, 88, 88, 0.24) 66%,
+    rgba(189, 189, 189, 0.24) 100%);
+  /* Кнопки: #696969 → #363636 → #363636 → #828282 */
+  --stroke-btn: linear-gradient(90deg,
+    #696969 -0.6%,
+    #363636 33%,
+    #363636 67.7%,
+    #828282 101.3%);
   --placeholder: #efefef;
 
   --font: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -103,8 +115,10 @@ img { display: block; max-width: 100%; }
   height: 32px;
   padding: 0 13px;
   border-radius: 999px;
-  border: 0.5px solid var(--btn-border);
-  background: var(--btn);
+  border: 0.5px solid transparent;
+  background:
+    linear-gradient(var(--btn-fill, var(--btn)), var(--btn-fill, var(--btn))) padding-box,
+    var(--stroke-btn) border-box;
   color: #fff;
   font-size: 16px;
   font-weight: 600;
@@ -113,7 +127,7 @@ img { display: block; max-width: 100%; }
   box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.4);
   transition: background-color 0.15s ease;
 }
-.btn:hover { background: #2a2a2a; }
+.btn:hover { --btn-fill: #2a2a2a; }
 .btn:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 
 /* ---------- Секции ---------- */
@@ -133,8 +147,10 @@ img { display: block; max-width: 100%; }
 }
 
 .card {
-  background: var(--card);
-  border: 0.5px solid var(--card-border);
+  border: 0.5px solid transparent;
+  background:
+    linear-gradient(var(--card-fill, var(--card)), var(--card-fill, var(--card))) padding-box,
+    var(--stroke-card) border-box;
   border-radius: var(--r-card);
   padding: var(--pad);
 }
@@ -157,8 +173,8 @@ img { display: block; max-width: 100%; }
   gap: 20px;
   align-items: flex-start;
 }
-a.case-card { display: block; transition: border-color 0.15s ease; }
-a.case-card:hover { border-color: #8f8f8f; }
+a.case-card { display: block; }
+a.case-card:hover { --card-fill: #f1f1f1; }
 a.case-card:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 
 .case__text {
@@ -207,9 +223,11 @@ a.case-card:focus-visible { outline: 2px solid var(--text); outline-offset: 2px;
   aspect-ratio: 344 / 328; /* пропорции карточки из мобильного макета */
   padding: 16px;
   border-radius: var(--r-img);
-  border: 0.5px solid var(--card-border);
+  border: 0.5px solid transparent;
   overflow: hidden;
-  background: var(--tone, #1c1c1c);
+  background:
+    linear-gradient(var(--tone, #1c1c1c), var(--tone, #1c1c1c)) padding-box,
+    var(--stroke-card) border-box;
 }
 .shot img,
 .shot video {

@@ -132,7 +132,40 @@
 
   <footer class="footer">© made PB x SE, 2026</footer>
 </main>
+
+<!-- Музыкальный плеер: официальный плеер Яндекс Музыки, грузится только при первом открытии -->
+<div class="player" id="player">
+  <div class="player__panel" id="player-panel" hidden>
+    <p class="player__label">сейчас в наушниках</p>
+    <iframe class="player__frame" id="player-frame" title="Big Baby Tape feat. Jeembo — Hard 2 Kill"
+      data-src="https://music.yandex.ru/iframe/track/45239767/6072366"
+      allow="clipboard-write; autoplay; encrypted-media" loading="lazy"></iframe>
+  </div>
+  <button class="player__toggle" id="player-toggle" type="button" aria-expanded="false" aria-controls="player-panel" aria-label="Открыть музыкальный плеер">
+    <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+  </button>
+</div>
 <script>
+  // Плеер: открыть/закрыть, iframe подгружается при первом открытии
+  (function () {
+    var btn = document.getElementById('player-toggle');
+    var panel = document.getElementById('player-panel');
+    var frame = document.getElementById('player-frame');
+    if (!btn) return;
+    var isOpen = false;
+    function setOpen(open) {
+      isOpen = open;
+      if (open && !frame.src) { frame.src = frame.dataset.src; panel.hidden = false; }
+      // сворачиваем через класс, а не display:none — чтобы музыка не прерывалась
+      panel.classList.toggle('is-collapsed', !open);
+      btn.setAttribute('aria-expanded', open);
+      btn.setAttribute('aria-label', open ? 'Свернуть музыкальный плеер' : 'Открыть музыкальный плеер');
+      btn.classList.toggle('is-open', open);
+    }
+    btn.addEventListener('click', function () { setOpen(!isOpen); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && isOpen) setOpen(false); });
+  })();
+
   // Пасхалка: по клику аватар мягко подпрыгивает, кривляется и пружинисто возвращается.
   (function () {
     var av = document.querySelector('.avatar');

@@ -18,13 +18,12 @@
       <div class="avatar">
         <img src="images/avatar.webp" alt="Павел Барашков">
       </div>
-      <h1 class="hero__title"><b>павел барашков</b>, продуктовый дизайнер, занимаюсь ⚒️ дизайн-системами</h1>
+      <h1 class="hero__title"><b>павел барашков</b>, <span class="nowrap">продуктовый дизайнер,</span> занимаюсь ⚒️ дизайн-системами</h1>
     </div>
     <nav class="links" aria-label="Контакты">
-      <!-- TODO: поставить настоящие ссылки -->
-      <a class="btn" href="#">резюме</a>
-      <a class="btn" href="#">телеграм</a>
-      <a class="btn" href="#">почта</a>
+      <a class="btn" href="CV_Barashkov_Pavel.pdf" target="_blank" rel="noopener">резюме</a>
+      <a class="btn" href="https://t.me/kensiblessj" target="_blank" rel="noopener">телеграм</a>
+      <a class="btn" href="mailto:northgarden163@mail.ru">почта</a>
     </nav>
   </header>
 
@@ -118,51 +117,41 @@
     </div>
   </section>
 
-  <section class="section" aria-labelledby="more">
+  <section class="section stack" aria-labelledby="more">
     <h2 class="section__label" id="more">more</h2>
 
-    <div class="card">
-      <article class="case">
-        <div class="case__text">
-          <div class="case__meta"><span class="chip">🛠️ в работе</span><span class="case__year">2026</span></div>
-          <div class="case__body">
-            <h3 class="case__title">design system json repository</h3>
-            <p class="case__desc">кросс-платформенная дизайн-система банка уралсиб</p>
-          </div>
-        </div>
-        <div class="case__img"><img src="images/case-uralsib.webp" alt="" loading="lazy" decoding="async"></div>
-      </article>
-    </div>
 
-    <div class="shot" style="--tone: #1d1f22"><video autoplay muted loop playsinline preload="metadata" poster="images/more-posters.webp"><source src="images/more-posters.mp4" type="video/mp4"></video><p class="shot__title">typographic posters fw 2023</p></div>
-    <div class="shot" style="--tone: #2b2b2b"><img src="images/more-omanko.webp" alt="" loading="lazy" decoding="async"><p class="shot__title">omanko 2022</p></div>
-    <div class="shot shot--rncb" style="--tone: #0d0d0d"><img src="images/more-rncb.gif" alt=""><p class="shot__title">rncb 3d visual</p></div>
-    <div class="shot" style="--tone: #3a2a22"><img src="images/more-id-software.webp" alt="" loading="lazy" decoding="async"><p class="shot__title">id software</p></div>
-    <div class="shot shot--light" style="--tone: #ececec"><video autoplay muted loop playsinline preload="metadata" poster="images/more-cube.webp"><source src="images/more-cube.mp4" type="video/mp4"></video><p class="shot__title">cube</p></div>
-    <div class="shot" style="--tone: #2a4fd6"><img src="images/more-marcelo.webp" alt="" loading="lazy" decoding="async"><p class="shot__title">marcelo miracles</p></div>
-    <div class="shot" style="--tone: #1a1416"><img src="images/more-gundam.webp" alt="" loading="lazy" decoding="async"><p class="shot__title">unicorn gundam rx3</p></div>
+    <div class="shot" style="--i: 0; --tone: #1d1f22"><video autoplay muted loop playsinline preload="metadata" poster="images/more-posters.webp"><source src="images/more-posters.mp4" type="video/mp4"></video><p class="shot__title">typographic posters fw 2023</p></div>
+    <div class="shot" style="--i: 1; --tone: #2b2b2b"><img src="images/more-omanko.webp" alt="" loading="lazy" decoding="async"><p class="shot__title">omanko 2022</p></div>
+    <div class="shot shot--rncb" style="--i: 2; --tone: #0d0d0d"><img src="images/more-rncb.gif" alt=""><p class="shot__title">rncb 3d visual</p></div>
+    <div class="shot" style="--i: 3; --tone: #3a2a22"><img src="images/more-id-software.webp" alt="" loading="lazy" decoding="async"><p class="shot__title">id software</p></div>
+    <div class="shot shot--light" style="--i: 4; --tone: #ececec"><video autoplay muted loop playsinline preload="metadata" poster="images/more-cube.webp"><source src="images/more-cube.mp4" type="video/mp4"></video><p class="shot__title">cube</p></div>
+    <div class="shot" style="--i: 5; --tone: #2a4fd6"><img src="images/more-marcelo.webp" alt="" loading="lazy" decoding="async"><p class="shot__title">marcelo miracles</p></div>
+    <div class="shot" style="--i: 6; --tone: #1a1416"><img src="images/more-gundam.webp" alt="" loading="lazy" decoding="async"><p class="shot__title">unicorn gundam rx3</p></div>
   </section>
 
   <footer class="footer">© made PB x SE, 2026</footer>
 </main>
 <script>
-  // Карточка, которую накрывает следующая, слегка уменьшается и темнеет.
+  // Карточка, которую накрывает следующая, уменьшается и размывается (как в iOS).
   (function () {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var cards = Array.prototype.slice.call(document.querySelectorAll('.stack > .card'));
-    if (cards.length < 2) return;
+    var groups = Array.prototype.map.call(document.querySelectorAll('.stack'), function (st) {
+      return Array.prototype.slice.call(st.querySelectorAll(':scope > .card, :scope > .shot'));
+    });
     var ticking = false;
     function update() {
       ticking = false;
-      for (var i = 0; i < cards.length - 1; i++) {
-        var cur = cards[i].getBoundingClientRect();
-        var next = cards[i + 1].getBoundingClientRect();
-        var h = cur.height || 1;
-        // 0 — следующая карточка ещё не дошла, 1 — полностью накрыла
-        var p = Math.min(1, Math.max(0, (cur.bottom - next.top) / h));
-        cards[i].style.transform = 'scale(' + (1 - p * 0.06) + ')';
-        cards[i].style.filter = 'brightness(' + (1 - p * 0.08) + ')';
-      }
+      groups.forEach(function (cards) {
+        for (var i = 0; i < cards.length - 1; i++) {
+          var cur = cards[i].getBoundingClientRect();
+          var next = cards[i + 1].getBoundingClientRect();
+          // 0 — следующая карточка ещё не дошла, 1 — полностью накрыла
+          var p = Math.min(1, Math.max(0, (cur.bottom - next.top) / (cur.height || 1)));
+          cards[i].style.transform = p ? 'scale(' + (1 - p * 0.05) + ')' : '';
+          cards[i].style.filter = p ? 'blur(' + (p * 4).toFixed(2) + 'px)' : '';
+        }
+      });
     }
     function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
     addEventListener('scroll', onScroll, { passive: true });

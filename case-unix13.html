@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>UNIX 13 Agent Redesign — Павел Барашков</title>
+  <meta name="description" content="Редизайн антивирусного агента Доктор Веб для Unix: анализ, новая архитектура, UI-kit на основе GNOME HIG.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="page">
+
+  <header class="cs-head">
+    <a class="back" href="index.html">← на главную</a>
+    <h1>unix 13 agent redesign</h1>
+    <p class="cs-lead">редизайн антивирусного агента доктор веб для юниксоидных систем: от анализа и новой архитектуры до гибкого UI-kit</p>
+  </header>
+
+  <section class="cs-block">
+    <h2>вводные</h2>
+    <dl class="facts">
+      <div class="fact"><dt>компания</dt><dd>доктор веб</dd></div>
+      <div class="fact"><dt>период</dt><dd>2024</dd></div>
+      <div class="fact"><dt>сроки</dt><dd>3–4 месяца</dd></div>
+      <div class="fact"><dt>версии продукта</dt><dd>home, industrial</dd></div>
+      <div class="fact"><dt>платформы</dt><dd>windows, mac, unix</dd></div>
+    </dl>
+  </section>
+
+  <figure class="cs-figure"><img src="images/unix13/01-hero.webp" alt="Новый интерфейс агента UNIX 13" width="1420" height="796"></figure>
+
+  <section class="cs-block cs-block--after-img">
+    <h2>описание проекта и его задача</h2>
+    <div class="cs-text">
+      <p>В кейсе поделюсь своим опытом работы над интерфейсами программного обеспечения для Доктор Веб. Компания разрабатывает ИБ-решения. Среди её продуктов — антивирусы для дома и офиса, программа для удалённого управления компьютерами и приложение для защиты личных данных на смартфонах.</p>
+      <p>Мне предстояло обновить дизайн антивирусного программного агента и улучшить пользовательский опыт при взаимодействии с интерфейсами. На момент обращения у проекта были следующие проблемы:</p>
+      <ul>
+        <li>Интерфейсы не соответствовали современным стандартам и не отражали стиль компании.</li>
+        <li>Пользователям было сложно ориентироваться в ПО: они не могли быстро находить нужные функции.</li>
+        <li>Не было старых дизайн-макетов и документации, что стопорило процесс обновления и развития ресурса.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="cs-block">
+    <h2>работа над проектом</h2>
+    <div class="cs-text">
+      <p>Сроки для создания дизайна были 3–4 месяца, так как компании было важно оперативно вывести обновлённые единообразные продукты для Windows, Mac и Unix.</p>
+      <p>Работу поделил на два этапа:</p>
+      <ul>
+        <li>Анализ продукта и связанных продуктов.</li>
+        <li>Обновление UI-дизайна и проработка новой архитектуры приложения.</li>
+      </ul>
+      <p>Работать предстояло над двумя версиями — Home и Industrial. Продукты реализованы на разных языках. Основная сложность заключалась в устаревшей библиотеке Qt и большой разнице между юниксоидными системами: интерфейс должен выглядеть хорошо и единообразно на всех них.</p>
+    </div>
+  </section>
+
+  <figure class="cs-figure"><img src="images/unix13/02-stages.webp" alt="Этапы работы над проектом" width="1600" height="348" loading="lazy" decoding="async"></figure>
+
+  <section class="cs-block cs-block--after-img">
+    <h2>маппинг</h2>
+    <div class="cs-text">
+      <p>Я отказался от глубинных UX-исследований, но провёл ряд аналитических работ, которых было достаточно, чтобы устранить критичные ошибки в интерфейсе:</p>
+      <ul>
+        <li>Делал постоянный бенчмаркинг и экспертный аудит приложений.</li>
+        <li>Постоянно анализировал саппорт-тикеты, обсуждения и отзывы на форумах и других площадках.</li>
+        <li>Протестировал все ключевые пути пользователей и спроектировал новый flow.</li>
+      </ul>
+    </div>
+  </section>
+
+  <figure class="cs-figure"><img src="images/unix13/03-map.webp" alt="Карта пользовательских путей" width="1600" height="928" loading="lazy" decoding="async"></figure>
+  <figure class="cs-figure">
+    <img src="images/unix13/04-industrial.webp" alt="Схема подключения к Industrial" width="1600" height="1108" loading="lazy" decoding="async">
+    <figcaption>подключение к industrial</figcaption>
+  </figure>
+
+  <section class="cs-block cs-block--after-img">
+    <div class="cs-text">
+      <p>Старые дизайн-макеты были реализованы ещё в Photoshop, документация устарела, а связанных продуктов становилось всё больше. Но это всё равно помогло в погружении.</p>
+      <p>На этапе накидки UI находилось много подводных камней, которые нужно было решать. Начиная с библиотеки Qt, где нельзя менять нейминг токенов: например, <code>$color-text-primary</code> будет называться <code>$color_ButtonText</code>, и да, на каждый элемент, даже если они одинаковые, нужна своя переменная.</p>
+      <p>Все сценарии проходили по несколько раз, чтобы изучить вариативность отклика системы на пользовательские действия.</p>
+      <p>Приходилось даже ковыряться в юниксоидных системах и угадывать краевые кейсы: намеренно удалять компоненты, чтобы посмотреть, как ПО реагирует на такие действия. Как оказалось, делал я это не зря.</p>
+      <p>Или, например, запускать GUI на телевизоре — есть и такие пользователи. На этом этапе нам помог резиновый дизайн.</p>
+    </div>
+  </section>
+
+  <figure class="cs-figure"><img src="images/unix13/05-tv.webp" alt="Интерфейс агента на большом экране" width="1376" height="764" loading="lazy" decoding="async"></figure>
+  <figure class="cs-figure">
+    <img src="images/unix13/06-edge-cases.webp" alt="Таблица краевых кейсов" width="1600" height="1021" loading="lazy" decoding="async">
+    <figcaption>таблица с обозначениями и реакциями на краевые кейсы, которые я смог найти вместе с тестировщиками</figcaption>
+  </figure>
+
+  <section class="cs-block cs-block--after-img">
+    <h2>дизайн</h2>
+    <div class="cs-text">
+      <p>При создании нового дизайна я использовал методологию атомарного дизайна. При таком подходе дизайн рассматривается как система, которая состоит из строительных блоков — атомов. Атомы можно использовать повторно и комбинировать друг с другом. В разработке такой подход называют компонентным. Он ускоряет работу над дизайном и его дальнейшее внедрение.</p>
+      <p>В результате получили:</p>
+      <ul>
+        <li>гибкий UI-kit;</li>
+        <li>возможность быстро вносить правки в дизайн.</li>
+      </ul>
+    </div>
+  </section>
+
+  <figure class="cs-figure"><img src="images/unix13/07-ui-kit.webp" alt="UI-kit агента" width="1600" height="878" loading="lazy" decoding="async"></figure>
+
+  <section class="cs-block cs-block--after-img">
+    <div class="cs-text">
+      <p>Примитивы и фундамент тянул от гайдлайнов GNOME HIG: они очень схожи с Apple HIG, так как системы юниксоидные.</p>
+      <p>Эти рекомендации помогли не менять вёрстку при смене локализации. Одна строка заголовка на немецком могла выглядеть так: «Funktionen des vorbeugenden Schutzes im Enterprise-Modus».</p>
+      <p>А разработчики могли общаться со мной на одном языке.</p>
+    </div>
+    <a class="cs-link" href="https://developer.gnome.org/hig/" target="_blank" rel="noopener">
+      <span class="cs-link__title">GNOME Human Interface Guidelines</span>
+      <span class="cs-link__desc">Основная документация по дизайну для тех, кто создаёт приложения на платформе GNOME.</span>
+      <span class="cs-link__url">developer.gnome.org/hig</span>
+    </a>
+    <div class="cs-text">
+      <p>Основным шрифтом выбрал Liberation Sans — нативный шрифт, который есть в библиотеке почти у всех юниксоидных систем.</p>
+      <p>Второй шрифт, который мы носим с собой, — Ubuntu. Он запасной, на случай если основного не окажется в системе.</p>
+    </div>
+  </section>
+
+  <figure class="cs-figure"><img src="images/unix13/08-fonts.webp" alt="Шрифты Liberation Sans и Ubuntu" width="1552" height="852" loading="lazy" decoding="async"></figure>
+
+  <section class="cs-block cs-block--after-img">
+    <h3>преимущества использования нативных элементов</h3>
+    <div class="cs-text">
+      <p><b>Последовательность и предсказуемость.</b> Нативные элементы выглядят именно так, как привыкли пользователи UNIX, и именно их я старался внедрить в новый дизайн — от элементов интерфейса до анимационных переходов.</p>
+      <p><b>Совместимость с обновлениями.</b> Юниксоидные системы бурно обновляются: с каждым обновлением разные ОС добавляют новые функции и дорабатывают существующие компоненты. Нативные элементы гарантируют, что приложение будет легко обновляться и останется совместимым с новыми версиями разных систем.</p>
+    </div>
+  </section>
+
+  <figure class="cs-figure"><img src="images/unix13/09-native.webp" alt="Нативные элементы интерфейса" width="1600" height="864" loading="lazy" decoding="async"></figure>
+
+  <section class="cs-block cs-block--after-img">
+    <h2>wireframes</h2>
+    <div class="cs-text">
+      <p>Интерфейс сделан современным, простым и лёгким в управлении, чтобы в дальнейшем ПО было проще развивать. Функции и контент вынесли на первое место, убрал весь цветной и фактурный фон, объединил функцию сканирования и агент в одном приложении, поддержали в интерфейсе связь с другими продуктами, такими как AV-Desk.</p>
+    </div>
+  </section>
+
+  <figure class="cs-figure">
+    <img src="images/unix13/10-wireframes.webp" alt="Вайрфреймы приложения" width="1600" height="329" loading="lazy" decoding="async">
+    <figcaption>сборка полностью кликабельного прототипа</figcaption>
+  </figure>
+
+  <section class="cs-block cs-block--after-img">
+    <h2>макеты</h2>
+  </section>
+
+  <div class="cs-gallery">
+    <figure class="cs-figure"><img src="images/unix13/11-screen.webp" alt="Макет экрана агента" width="1482" height="810" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/unix13/12-screen.webp" alt="Макет экрана агента" width="1600" height="977" loading="lazy" decoding="async"></figure>
+    <figure class="cs-figure"><img src="images/unix13/13-screen.webp" alt="Макет экрана агента" width="1600" height="866" loading="lazy" decoding="async"></figure>
+  </div>
+
+  <footer class="footer">© made PB x SE, 2026</footer>
+</main>
+</body>
+</html>

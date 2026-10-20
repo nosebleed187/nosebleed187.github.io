@@ -228,39 +228,6 @@ a.case-card:focus-visible { outline: 2px solid var(--text); outline-offset: 2px;
   box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.3);
 }
 
-/* размытие у верхнего края экрана на страницах кейсов:
-   контент плавно уходит под «матовое стекло» высотой ~64px */
-.top-blur {
-  position: fixed;
-  top: 0;
-  /* шире экрана: у края экрана iOS Safari рисует размытие с тёмной кромкой */
-  left: -24px;
-  right: -24px;
-  height: 64px;
-  z-index: 40;
-  pointer-events: none;
-}
-/* слой 1: лёгкое размытие, плавно исчезает книзу */
-.top-blur::before,
-.top-blur::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-}
-.top-blur::before {
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 30%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 30%, transparent 100%);
-}
-/* слой 2: цвет фона поверх — размытый текст растворяется в фоне, а не превращается в серое пятно */
-.top-blur::after {
-  background: linear-gradient(to bottom,
-    rgba(250, 250, 250, 1) 0%,
-    rgba(250, 250, 250, 0.92) 25%,
-    rgba(250, 250, 250, 0.6) 55%,
-    rgba(250, 250, 250, 0) 100%);
-}
 
 .case__body { display: flex; flex-direction: column; gap: 4px; }
 .case__title { margin: 0; font-size: 18px; font-weight: 500; }

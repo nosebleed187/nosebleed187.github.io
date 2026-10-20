@@ -379,11 +379,11 @@ a.case-card:focus-visible { outline: 2px solid var(--text); outline-offset: 2px;
   flex-direction: column;
   gap: 8px;
 }
-.cs-text li {
+.cs-text ul > li {
   position: relative;
   padding-left: 20px;
 }
-.cs-text li::before {
+.cs-text ul > li::before {
   content: "";
   position: absolute;
   left: 4px;
@@ -392,6 +392,74 @@ a.case-card:focus-visible { outline: 2px solid var(--text); outline-offset: 2px;
   height: 5px;
   border-radius: 50%;
   background: var(--muted);
+}
+
+.cs-text ol {
+  margin: 0;
+  padding-left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cs-text ol li::marker { color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* термины внутри списка (Fix / Minor / Major / Rebuild) */
+.cs-terms { margin: 8px 0 0; display: flex; flex-direction: column; gap: 4px; }
+.cs-terms div { display: flex; gap: 8px; flex-wrap: wrap; }
+.cs-terms dt { font-weight: 500; min-width: 64px; }
+.cs-terms dd { margin: 0; color: var(--muted); }
+
+/* краткая сводка и итоги — карточки */
+.cs-summary,
+.cs-results {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+.cs-summary > .cs-text,
+.cs-result {
+  min-width: 0;
+  padding: 20px;
+  border-radius: 20px;
+  border: 0.5px solid transparent;
+  background:
+    linear-gradient(var(--card), var(--card)) padding-box,
+    var(--stroke-card) border-box;
+}
+.cs-results { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.cs-result { display: flex; flex-direction: column; gap: 12px; }
+.cs-result dl { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.cs-result dt { font-size: 14px; font-weight: 500; color: var(--muted); }
+.cs-result dd { margin: 0; font-size: 16px; line-height: 24px; }
+
+/* таблица принципов */
+.cs-table-wrap { overflow-x: auto; }
+.cs-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  line-height: 22px;
+}
+.cs-table caption {
+  caption-side: bottom;
+  text-align: left;
+  padding-top: 8px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.cs-table th,
+.cs-table td {
+  padding: 12px 0;
+  border-top: 0.5px solid var(--card-line, #d6d6d6);
+  text-align: left;
+  vertical-align: top;
+}
+.cs-table th {
+  width: 88px;
+  padding-right: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .cs-figure {
